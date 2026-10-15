@@ -3,237 +3,189 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Red Municipal La Rioja</title>
+    <title>Observatorio Municipal La Rioja</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Leaflet CSS for Maps -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <!-- Google Fonts: Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="bg-light">
 
     <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg fixed-top shadow-sm" id="mainNav">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="#" onclick="showPage('home')">
-                <i class="fa-solid fa-map-location-dot brand-icon"></i> RedMunicipal<span class="fw-light">LR</span>
+        <div class="container-fluid px-4">
+            <a class="navbar-brand fw-bold" href="#">
+                <i class="fa-solid fa-chart-pie brand-icon"></i> ObservatorioMunicipal<span class="fw-light">LR</span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-toggle="collapse" data-bs-target="#navbarResponsive">
-                <i class="fa-solid fa-bars text-white"></i>
+            <button class="navbar-toggler text-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive">
+                <i class="fa-solid fa-bars"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ms-auto py-4 py-lg-0">
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="#" onclick="showPage('home')">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="#" onclick="showPage('municipios')">Municipios (18)</a></li>
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="#" onclick="showPage('noticias')">Noticias</a></li>
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="#" onclick="showPage('contacto')">Contacto</a></li>
+                <ul class="navbar-nav ms-auto py-2 py-lg-0">
+                    <li class="nav-item"><a class="nav-link px-lg-3" href="#mapa-section">Mapa Interactivo</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3" href="#directorio-section">Buscador y Datos</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3" href="#dashboard-section">Análisis y Gráficos</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- PAGE: HOME -->
-    <div id="page-home" class="page-section active">
-        <!-- Hero Section -->
-        <header class="masthead">
-            <div class="container position-relative px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-md-10 col-lg-8 col-xl-7 text-center">
-                        <div class="site-heading">
-                            <h1>La Rioja Conectada</h1>
-                            <span class="subheading">El portal oficial que unifica la información, autoridades y servicios de los 18 departamentos de nuestra provincia.</span>
-                            <div class="mt-4">
-                                <button class="btn btn-primary btn-lg px-4 me-2 rounded-pill shadow" onclick="showPage('municipios')">Ver Departamentos</button>
-                                <button class="btn btn-outline-light btn-lg px-4 rounded-pill shadow" onclick="showPage('noticias')">Últimas Noticias</button>
+    <!-- HEADER / HERO -->
+    <header class="masthead">
+        <div class="container text-center">
+            <h1 class="fw-bold text-white mb-3 shadow-text">Plataforma de Datos Municipales</h1>
+            <p class="lead text-white-50 mb-0 shadow-text">Análisis demográfico, territorial y comparativo de los 18 departamentos de La Rioja.</p>
+        </div>
+    </header>
+
+    <div class="container-fluid px-4 mt-4 mb-5">
+        <div class="row g-4">
+            
+            <!-- COLUMNA IZQUIERDA: Mapa y Buscador -->
+            <div class="col-lg-5">
+                
+                <!-- SECCIÓN MAPA -->
+                <div id="mapa-section" class="card shadow-sm border-0 mb-4 rounded-4 overflow-hidden">
+                    <div class="card-header bg-white border-0 pt-4 pb-0 px-4">
+                        <h5 class="fw-bold text-primary"><i class="fa-solid fa-map-location-dot me-2"></i> Mapa Territorial</h5>
+                        <p class="text-muted small">Seleccione un departamento para ver sus indicadores.</p>
+                    </div>
+                    <div class="card-body p-0">
+                        <div id="map" style="height: 450px; width: 100%;"></div>
+                    </div>
+                </div>
+
+                <!-- SECCIÓN BUSCADOR Y LISTA -->
+                <div id="directorio-section" class="card shadow-sm border-0 rounded-4">
+                    <div class="card-header bg-white border-0 pt-4 px-4 pb-2">
+                        <h5 class="fw-bold text-primary"><i class="fa-solid fa-magnifying-glass me-2"></i> Directorio y Buscador</h5>
+                        <input type="text" id="searchInput" class="form-control form-control-lg bg-light border-0 mt-3" placeholder="Buscar departamento o cabecera..." onkeyup="filtrarTabla()">
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                            <table class="table table-hover align-middle mb-0 custom-table">
+                                <thead class="table-light sticky-top">
+                                    <tr>
+                                        <th class="ps-4">Departamento</th>
+                                        <th>Cabecera</th>
+                                        <th class="text-end pe-4">Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableBody">
+                                    <!-- Llenado por JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- COLUMNA DERECHA: DASHBOARD DE DATOS Y GRÁFICOS -->
+            <div class="col-lg-7" id="dashboard-section">
+                
+                <!-- Estado Vacío (Antes de seleccionar) -->
+                <div id="empty-state" class="card shadow-sm border-0 rounded-4 h-100 d-flex justify-content-center align-items-center text-center p-5">
+                    <i class="fa-solid fa-hand-pointer text-muted mb-3" style="font-size: 4rem; opacity: 0.3;"></i>
+                    <h4 class="text-muted fw-bold">Seleccione un Municipio</h4>
+                    <p class="text-muted mb-0">Haga clic en el mapa o en el directorio para visualizar las estadísticas comparativas.</p>
+                </div>
+
+                <!-- Dashboard de Datos (Oculto inicialmente) -->
+                <div id="data-dashboard" class="d-none">
+                    
+                    <!-- Tarjeta de Identificación -->
+                    <div class="card shadow-sm border-0 rounded-4 mb-4 bg-primary text-white position-relative overflow-hidden">
+                        <div class="card-body p-4 position-relative z-1">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <span class="badge bg-secondary mb-2 fs-6">Perfil Municipal</span>
+                                    <h2 class="fw-bold mb-0" id="dash-nombre">Nombre Dpto</h2>
+                                    <p class="mb-0 text-white-50 fs-5"><i class="fa-solid fa-location-dot"></i> Cabecera: <span id="dash-cabecera">Cabecera</span></p>
+                                </div>
+                                <div class="text-end">
+                                    <small class="text-white-50 d-block text-uppercase">Intendencia</small>
+                                    <span class="fw-bold fs-5" id="dash-intendente">Nombre Intendente</span>
+                                </div>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-building-columns position-absolute text-white" style="font-size: 15rem; right: -20px; bottom: -40px; opacity: 0.1; z-index: 0;"></i>
+                    </div>
+
+                    <!-- Tarjetas de Métricas -->
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <div class="card shadow-sm border-0 rounded-4 h-100 metric-card">
+                                <div class="card-body text-center p-4">
+                                    <div class="metric-icon text-primary bg-primary bg-opacity-10 mb-2"><i class="fa-solid fa-users"></i></div>
+                                    <h3 class="fw-bold mb-0" id="dash-pob">0</h3>
+                                    <small class="text-muted text-uppercase fw-bold">Habitantes</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card shadow-sm border-0 rounded-4 h-100 metric-card">
+                                <div class="card-body text-center p-4">
+                                    <div class="metric-icon text-secondary bg-secondary bg-opacity-10 mb-2"><i class="fa-solid fa-ruler-combined"></i></div>
+                                    <h3 class="fw-bold mb-0"><span id="dash-sup">0</span> <small class="fs-6 text-muted">km²</small></h3>
+                                    <small class="text-muted text-uppercase fw-bold">Superficie</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card shadow-sm border-0 rounded-4 h-100 metric-card">
+                                <div class="card-body text-center p-4">
+                                    <div class="metric-icon text-success bg-success bg-opacity-10 mb-2"><i class="fa-solid fa-chart-area"></i></div>
+                                    <h3 class="fw-bold mb-0"><span id="dash-den">0</span> <small class="fs-6 text-muted">h/km²</small></h3>
+                                    <small class="text-muted text-uppercase fw-bold">Densidad</small>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </header>
 
-        <!-- Quick Access / Stats -->
-        <div class="container mt-5 mb-5 pt-4">
-            <div class="row text-center g-4">
-                <div class="col-md-4">
-                    <div class="feature-card p-4 rounded-4 shadow-sm border-0 bg-white">
-                        <div class="feature-icon bg-primary text-white rounded-circle mb-3 mx-auto">
-                            <i class="fa-solid fa-building-columns"></i>
-                        </div>
-                        <h4 class="fw-bold">18 Departamentos</h4>
-                        <p class="text-muted mb-0">Información detallada, autoridades y datos demográficos de cada cabecera.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="feature-card p-4 rounded-4 shadow-sm border-0 bg-white">
-                        <div class="feature-icon bg-secondary text-white rounded-circle mb-3 mx-auto">
-                            <i class="fa-solid fa-bullhorn"></i>
-                        </div>
-                        <h4 class="fw-bold">Noticias en Red</h4>
-                        <p class="text-muted mb-0">Actualidad, obras y comunicados oficiales de toda la provincia centralizados.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="feature-card p-4 rounded-4 shadow-sm border-0 bg-white">
-                        <div class="feature-icon bg-dark text-white rounded-circle mb-3 mx-auto">
-                            <i class="fa-solid fa-file-signature"></i>
-                        </div>
-                        <h4 class="fw-bold">Trámites y Servicios</h4>
-                        <p class="text-muted mb-0">Enlaces directos a portales de gestión ciudadana y herramientas municipales.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- PAGE: MUNICIPIOS -->
-    <div id="page-municipios" class="page-section" style="display:none; padding-top: 100px;">
-        <div class="container mb-5">
-            <div class="text-center mb-5">
-                <h2 class="fw-bold text-primary display-5">Departamentos de La Rioja</h2>
-                <p class="text-muted lead">Conocé las autoridades, ubicación y datos de cada municipio.</p>
-            </div>
-            
-            <!-- Search Bar -->
-            <div class="row justify-content-center mb-4">
-                <div class="col-md-6">
-                    <div class="input-group input-group-lg shadow-sm rounded-pill overflow-hidden">
-                        <span class="input-group-text bg-white border-0 text-muted"><i class="fa-solid fa-magnifying-glass"></i></span>
-                        <input type="text" id="searchMunicipio" class="form-control border-0 bg-white" placeholder="Buscar municipio o intendente..." onkeyup="filtrarMunicipios()">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Grid de Municipios -->
-            <div class="row g-4" id="gridMunicipios">
-                <!-- Se llena con JS -->
-            </div>
-        </div>
-    </div>
-
-    <!-- PAGE: NOTICIAS -->
-    <div id="page-noticias" class="page-section" style="display:none; padding-top: 100px;">
-        <div class="container mb-5">
-            <h2 class="fw-bold text-primary mb-4 border-bottom pb-2">Últimas Noticias Regionales</h2>
-            
-            <div class="row g-4">
-                <!-- Noticia 1 -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="card h-100 shadow-sm border-0 news-card">
-                        <div class="bg-light w-100 d-flex justify-content-center align-items-center" style="height: 200px; color:#aaa;">
-                            <i class="fa-solid fa-image fs-1"></i>
-                        </div>
-                        <div class="card-body">
-                            <span class="badge bg-secondary mb-2">Obras Públicas</span>
-                            <h5 class="card-title fw-bold">Avanza la pavimentación en el departamento Capital</h5>
-                            <p class="card-text text-muted small">El gobierno provincial junto al municipio capitalino anunciaron la finalización de la segunda etapa de asfaltado...</p>
-                        </div>
-                        <div class="card-footer bg-white border-0 pt-0">
-                            <small class="text-muted"><i class="fa-regular fa-clock"></i> Hace 2 horas</small>
-                        </div>
-                    </div>
-                </div>
-                <!-- Noticia 2 -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="card h-100 shadow-sm border-0 news-card">
-                        <div class="bg-light w-100 d-flex justify-content-center align-items-center" style="height: 200px; color:#aaa;">
-                            <i class="fa-solid fa-image fs-1"></i>
-                        </div>
-                        <div class="card-body">
-                            <span class="badge bg-primary mb-2">Turismo</span>
-                            <h5 class="card-title fw-bold">Chilecito se prepara para la temporada alta</h5>
-                            <p class="card-text text-muted small">Las autoridades de turismo locales proyectan un 100% de ocupación hotelera para los próximos fines de semana largos.</p>
-                        </div>
-                        <div class="card-footer bg-white border-0 pt-0">
-                            <small class="text-muted"><i class="fa-regular fa-clock"></i> Hace 5 horas</small>
-                        </div>
-                    </div>
-                </div>
-                <!-- Noticia 3 -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="card h-100 shadow-sm border-0 news-card">
-                        <div class="bg-light w-100 d-flex justify-content-center align-items-center" style="height: 200px; color:#aaa;">
-                            <i class="fa-solid fa-image fs-1"></i>
-                        </div>
-                        <div class="card-body">
-                            <span class="badge bg-dark mb-2">Gestión</span>
-                            <h5 class="card-title fw-bold">Nuevo sistema de atención ciudadana en Chamical</h5>
-                            <p class="card-text text-muted small">El intendente presentó la nueva plataforma digital para agilizar trámites y reclamos vecinales.</p>
-                        </div>
-                        <div class="card-footer bg-white border-0 pt-0">
-                            <small class="text-muted"><i class="fa-regular fa-clock"></i> Ayer</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- PAGE: CONTACTO -->
-    <div id="page-contacto" class="page-section" style="display:none; padding-top: 100px;">
-        <div class="container mb-5">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="card shadow border-0 rounded-4 p-5">
-                        <h2 class="fw-bold text-center text-primary mb-4">Mesa de Enlace Provincial</h2>
-                        <p class="text-center text-muted mb-5">¿Representa a un municipio y desea actualizar sus datos institucionales? Contáctenos a través de este formulario oficial.</p>
-                        
-                        <form onsubmit="alert('Mensaje enviado al administrador de la red.'); return false;">
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label class="form-label fw-bold">Nombre Completo</label>
-                                    <input type="text" class="form-control form-control-lg bg-light border-0" required>
+                    <!-- Gráficos Comparativos -->
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="card shadow-sm border-0 rounded-4 h-100">
+                                <div class="card-header bg-white border-0 pt-4 pb-0 px-4">
+                                    <h6 class="fw-bold text-dark"><i class="fa-solid fa-chart-bar text-primary"></i> Población vs Promedio Provincial</h6>
                                 </div>
-                                <div class="col-md-6">
-                                    <label class="form-label fw-bold">Municipio / Dependencia</label>
-                                    <select class="form-select form-select-lg bg-light border-0">
-                                        <option>Seleccionar...</option>
-                                        <option>Capital</option>
-                                        <option>Chilecito</option>
-                                        <option>Otro...</option>
-                                    </select>
-                                </div>
-                                <div class="col-12">
-                                    <label class="form-label fw-bold">Correo Institucional</label>
-                                    <input type="email" class="form-control form-control-lg bg-light border-0" required>
-                                </div>
-                                <div class="col-12">
-                                    <label class="form-label fw-bold">Mensaje / Solicitud</label>
-                                    <textarea class="form-control bg-light border-0" rows="5" required></textarea>
-                                </div>
-                                <div class="col-12 text-center mt-4">
-                                    <button type="submit" class="btn btn-primary btn-lg px-5 rounded-pill shadow">Enviar Solicitud <i class="fa-solid fa-paper-plane ms-2"></i></button>
+                                <div class="card-body p-4">
+                                    <canvas id="chartPoblacion" height="250"></canvas>
                                 </div>
                             </div>
-                        </form>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card shadow-sm border-0 rounded-4 h-100">
+                                <div class="card-header bg-white border-0 pt-4 pb-0 px-4">
+                                    <h6 class="fw-bold text-dark"><i class="fa-solid fa-chart-pie text-secondary"></i> Participación Territorial</h6>
+                                </div>
+                                <div class="card-body p-4">
+                                    <canvas id="chartSuperficie" height="250"></canvas>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
+
             </div>
         </div>
     </div>
 
-    <!-- FOOTER -->
-    <footer class="border-top py-4 bg-white mt-auto">
-        <div class="container px-4 px-lg-5">
-            <div class="row align-items-center">
-                <div class="col-md-6 text-center text-md-start">
-                    <div class="fw-bold fs-5 text-primary mb-2"><i class="fa-solid fa-map-location-dot"></i> RedMunicipal LR</div>
-                    <p class="text-muted small mb-0">Portal de integración de los 18 departamentos de La Rioja.</p>
-                </div>
-                <div class="col-md-6 text-center text-md-end mt-3 mt-md-0">
-                    <a href="#" class="text-muted text-decoration-none me-3"><i class="fa-brands fa-facebook fs-4"></i></a>
-                    <a href="#" class="text-muted text-decoration-none me-3"><i class="fa-brands fa-twitter fs-4"></i></a>
-                    <a href="#" class="text-muted text-decoration-none"><i class="fa-brands fa-instagram fs-4"></i></a>
-                    <p class="text-muted small mt-2 mb-0">&copy; 2026 Red Municipal La Rioja. Todos los derechos reservados.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Bootstrap JS -->
+    <!-- Scripts -->
+    <!-- Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- App Logic -->
     <script src="app.js"></script>
 </body>
 </html>

@@ -1,101 +1,180 @@
 
-// Data de los 18 Departamentos de La Rioja
-const municipiosLaRioja = [
-    { nombre: "Capital", cabecera: "La Rioja", intendente: "Armando Molina", poblacion: "~220.000" },
-    { nombre: "Chilecito", cabecera: "Chilecito", intendente: "Rodrigo Brizuela y Doria", poblacion: "~50.000" },
-    { nombre: "Arauco", cabecera: "Aimogasta", intendente: "Virginia López", poblacion: "~15.000" },
-    { nombre: "Famatina", cabecera: "Famatina", intendente: "Alberto Godoy", poblacion: "~6.000" },
-    { nombre: "Rosario Vera Peñaloza", cabecera: "Chepes", intendente: "Laura Carrizo", poblacion: "~14.000" },
-    { nombre: "Chamical", cabecera: "Chamical", intendente: "Dora Rodríguez", poblacion: "~14.000" },
-    { nombre: "General Felipe Varela", cabecera: "Villa Unión", intendente: "Yamil Sarruff", poblacion: "~10.000" },
-    { nombre: "Sanagasta", cabecera: "Villa Sanagasta", intendente: "Federico Sbiroli", poblacion: "~3.000" },
-    { nombre: "Castro Barros", cabecera: "Aminga", intendente: "Marcelo del Moral", poblacion: "~4.500" },
-    { nombre: "General Belgrano", cabecera: "Olta", intendente: "Carlos Romero", poblacion: "~7.500" },
-    { nombre: "General Juan Facundo Quiroga", cabecera: "Malanzán", intendente: "Ariel Bejarano", poblacion: "~4.000" },
-    { nombre: "General Lamadrid", cabecera: "Villa Castelli", intendente: "Luis Orquera", poblacion: "~2.000" },
-    { nombre: "General Ocampo", cabecera: "Villa Santa Rita de Catuna", intendente: "Jorge Salomón", poblacion: "~7.000" },
-    { nombre: "General San Martín", cabecera: "Ulapes", intendente: "Uriel Pérez", poblacion: "~5.000" },
-    { nombre: "General Ángel V. Peñaloza", cabecera: "Tama", intendente: "Ricardo Romero", poblacion: "~3.000" },
-    { nombre: "Independencia", cabecera: "Patquía", intendente: "Eduardo de la Vega", poblacion: "~2.500" },
-    { nombre: "San Blas de los Sauces", cabecera: "San Blas", intendente: "Antonio Sotomayor", poblacion: "~4.000" },
-    { nombre: "Vinchina", cabecera: "Villa San José de Vinchina", intendente: "Adriana Olima", poblacion: "~2.500" }
+// 1. BASE DE DATOS ESTRUCTURADA DE LA RIOJA (Datos reales aproximados para gráficos)
+const dptosData = [
+    { id: 1, nombre: "Capital", cabecera: "La Rioja", intendente: "Armando Molina", pob: 215000, sup: 13638, lat: -29.4134, lng: -66.8564 },
+    { id: 2, nombre: "Chilecito", cabecera: "Chilecito", intendente: "Rodrigo Brizuela y Doria", pob: 50000, sup: 4815, lat: -29.1619, lng: -67.4953 },
+    { id: 3, nombre: "Arauco", cabecera: "Aimogasta", intendente: "Virginia López", pob: 15400, sup: 1992, lat: -28.5615, lng: -66.8066 },
+    { id: 4, nombre: "Rosario Vera Peñaloza", cabecera: "Chepes", intendente: "Laura Carrizo", pob: 14000, sup: 6114, lat: -31.3396, lng: -66.5985 },
+    { id: 5, nombre: "Chamical", cabecera: "Chamical", intendente: "Dora Rodríguez", pob: 14100, sup: 5549, lat: -30.3601, lng: -66.3140 },
+    { id: 6, nombre: "Gral. Felipe Varela", cabecera: "Villa Unión", intendente: "Yamil Sarruff", pob: 9600, sup: 9184, lat: -29.2785, lng: -68.2274 },
+    { id: 7, nombre: "Gral. Belgrano", cabecera: "Olta", intendente: "Carlos Romero", pob: 7300, sup: 2556, lat: -30.6318, lng: -66.2625 },
+    { id: 8, nombre: "Famatina", cabecera: "Famatina", intendente: "Alberto Godoy", pob: 5800, sup: 4587, lat: -28.9248, lng: -67.5204 },
+    { id: 9, nombre: "Gral. Ocampo", cabecera: "Villa Santa Rita de Catuna", intendente: "Jorge Salomón", pob: 7100, sup: 2135, lat: -30.9575, lng: -66.2081 },
+    { id: 10, nombre: "Gral. San Martín", cabecera: "Ulapes", intendente: "Uriel Pérez", pob: 4900, sup: 5034, lat: -31.5721, lng: -66.2415 },
+    { id: 11, nombre: "Castro Barros", cabecera: "Aminga", intendente: "Marcelo del Moral", pob: 4200, sup: 1420, lat: -28.8475, lng: -66.9452 },
+    { id: 12, nombre: "San Blas de los Sauces", cabecera: "San Blas", intendente: "Antonio Sotomayor", pob: 3900, sup: 1590, lat: -28.4116, lng: -67.0945 },
+    { id: 13, nombre: "Gral. J.F. Quiroga", cabecera: "Malanzán", intendente: "Ariel Bejarano", pob: 4100, sup: 3584, lat: -30.8228, lng: -66.6025 },
+    { id: 14, nombre: "Vinchina", cabecera: "Villa San José de Vinchina", intendente: "Adriana Olima", pob: 2700, sup: 10334, lat: -28.7562, lng: -68.1995 },
+    { id: 15, nombre: "Sanagasta", cabecera: "Villa Sanagasta", intendente: "Federico Sbiroli", pob: 2300, sup: 1711, lat: -29.3006, lng: -67.0425 },
+    { id: 16, nombre: "Gral. Ángel V. Peñaloza", cabecera: "Tama", intendente: "Ricardo Romero", pob: 3000, sup: 3106, lat: -30.5057, lng: -66.5411 },
+    { id: 17, nombre: "Independencia", cabecera: "Patquía", intendente: "Eduardo de la Vega", pob: 2400, sup: 7120, lat: -30.0435, lng: -66.8837 },
+    { id: 18, nombre: "Gral. Lamadrid", cabecera: "Villa Castelli", intendente: "Luis Orquera", pob: 1700, sup: 6179, lat: -29.0157, lng: -68.2234 }
 ];
 
-// SPA Navigation
-function showPage(pageId) {
-    // Hide all pages
-    document.querySelectorAll('.page-section').forEach(el => {
-        el.style.display = 'none';
+// Variables Globales
+let map;
+let markers = [];
+let chartPob = null;
+let chartSup = null;
+
+// Promedios / Totales Provinciales para gráficos
+const totalPob = dptosData.reduce((acc, curr) => acc + curr.pob, 0);
+const promPob = Math.round(totalPob / 18);
+const totalSup = dptosData.reduce((acc, curr) => acc + curr.sup, 0);
+
+// 2. INICIALIZAR MAPA (Leaflet)
+function initMap() {
+    map = L.map('map').setView([-30.0000, -67.0000], 7); // Centro geográfico de La Rioja
+    
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; OpenStreetMap &copy; CARTO'
+    }).addTo(map);
+
+    const customIcon = L.divIcon({
+        className: 'custom-pin',
+        html: '<i class="fa-solid fa-location-dot fa-2x" style="color: #4338ca; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3));"></i>',
+        iconSize: [30, 42], iconAnchor: [15, 42], popupAnchor: [0, -40]
     });
-    // Show target page
-    document.getElementById('page-' + pageId).style.display = 'block';
-    
-    // Close mobile menu if open
-    const navbarToggler = document.querySelector('.navbar-toggler');
-    const navbarCollapse = document.querySelector('.navbar-collapse');
-    if(navbarCollapse.classList.contains('show')) {
-        navbarToggler.click();
-    }
-    
-    window.scrollTo(0,0);
-}
 
-// Renderizar Grilla de Municipios
-function renderMunicipios(data) {
-    const grid = document.getElementById('gridMunicipios');
-    grid.innerHTML = '';
-    
-    if(data.length === 0) {
-        grid.innerHTML = '<div class="col-12 text-center py-5 text-muted">No se encontraron resultados.</div>';
-        return;
-    }
-
-    data.forEach(m => {
-        let col = document.createElement('div');
-        col.className = 'col-md-6 col-lg-4';
-        col.innerHTML = `
-            <div class="card bg-white p-4 h-100 shadow-sm muni-card">
-                <div class="d-flex align-items-center mb-3">
-                    <div class="muni-icon-box me-3 shadow-sm">
-                        <i class="fa-solid fa-map-pin"></i>
-                    </div>
-                    <div>
-                        <h5 class="fw-bold mb-0 text-dark">Dpto. ${m.nombre}</h5>
-                        <small class="text-secondary fw-semibold">Cabecera: ${m.cabecera}</small>
-                    </div>
-                </div>
-                <hr class="text-muted opacity-25">
-                <div class="mb-2">
-                    <small class="text-muted d-block text-uppercase" style="font-size:0.7rem;">Intendencia</small>
-                    <span class="fw-medium"><i class="fa-solid fa-user-tie text-muted me-1"></i> ${m.intendente}</span>
-                </div>
-                <div>
-                    <small class="text-muted d-block text-uppercase" style="font-size:0.7rem;">Población Est.</small>
-                    <span class="fw-medium"><i class="fa-solid fa-users text-muted me-1"></i> ${m.poblacion} hab.</span>
-                </div>
-                <div class="mt-3 text-end">
-                    <button class="btn btn-sm btn-outline-primary rounded-pill px-3">Ver portal <i class="fa-solid fa-arrow-right ms-1"></i></button>
-                </div>
+    dptosData.forEach(dpto => {
+        let m = L.marker([dpto.lat, dpto.lng], {icon: customIcon}).addTo(map);
+        m.bindPopup(`
+            <div class="text-center">
+                <h6 class="fw-bold mb-1 text-primary">${dpto.nombre}</h6>
+                <p class="small text-muted mb-2">${dpto.cabecera}</p>
+                <button class="btn btn-sm btn-primary rounded-pill px-3" onclick="seleccionarDpto(${dpto.id})">Ver Análisis</button>
             </div>
-        `;
-        grid.appendChild(col);
+        `);
+        markers.push({ id: dpto.id, marker: m });
     });
 }
 
-// Filtro de Búsqueda
-window.filtrarMunicipios = function() {
-    const query = document.getElementById('searchMunicipio').value.toLowerCase();
-    const filtrados = municipiosLaRioja.filter(m => 
-        m.nombre.toLowerCase().includes(query) || 
-        m.cabecera.toLowerCase().includes(query) || 
-        m.intendente.toLowerCase().includes(query)
-    );
-    renderMunicipios(filtrados);
+// 3. RENDERIZAR TABLA / BUSCADOR
+function renderTabla(data) {
+    const tbody = document.getElementById('tableBody');
+    tbody.innerHTML = '';
+    
+    data.sort((a,b) => a.nombre.localeCompare(b.nombre)).forEach(dpto => {
+        let tr = document.createElement('tr');
+        tr.id = `row-${dpto.id}`;
+        tr.onclick = () => seleccionarDpto(dpto.id);
+        tr.innerHTML = `
+            <td class="ps-4 fw-bold text-dark">${dpto.nombre}</td>
+            <td class="text-muted small">${dpto.cabecera}</td>
+            <td class="text-end pe-4"><i class="fa-solid fa-chevron-right text-muted"></i></td>
+        `;
+        tbody.appendChild(tr);
+    });
 }
 
-// Init
+window.filtrarTabla = function() {
+    const q = document.getElementById('searchInput').value.toLowerCase();
+    const filtrados = dptosData.filter(d => 
+        d.nombre.toLowerCase().includes(q) || d.cabecera.toLowerCase().includes(q)
+    );
+    renderTabla(filtrados);
+}
+
+// 4. SELECCIONAR Y ACTUALIZAR DASHBOARD
+window.seleccionarDpto = function(id) {
+    const dpto = dptosData.find(d => d.id === id);
+    if(!dpto) return;
+
+    // Cambiar UI de Tabla
+    document.querySelectorAll('#tableBody tr').forEach(tr => tr.classList.remove('active-row'));
+    const activeRow = document.getElementById(`row-${id}`);
+    if(activeRow) activeRow.classList.add('active-row');
+
+    // Centrar Mapa y abrir popup
+    map.flyTo([dpto.lat, dpto.lng], 9, { duration: 1 });
+    const targetMarker = markers.find(m => m.id === id).marker;
+    targetMarker.openPopup();
+
+    // Mostrar Dashboard, Ocultar Estado Vacío
+    document.getElementById('empty-state').classList.add('d-none');
+    document.getElementById('data-dashboard').classList.remove('d-none');
+
+    // Actualizar Textos
+    document.getElementById('dash-nombre').innerText = dpto.nombre;
+    document.getElementById('dash-cabecera').innerText = dpto.cabecera;
+    document.getElementById('dash-intendente').innerText = dpto.intendente;
+    document.getElementById('dash-pob').innerText = dpto.pob.toLocaleString('es-AR');
+    document.getElementById('dash-sup').innerText = dpto.sup.toLocaleString('es-AR');
+    
+    let densidad = (dpto.pob / dpto.sup).toFixed(2);
+    document.getElementById('dash-den').innerText = densidad;
+
+    // Actualizar Gráficos Chart.js
+    renderCharts(dpto);
+    
+    // Scroll mobile hacia el dashboard
+    if(window.innerWidth < 992) {
+        document.getElementById('dashboard-section').scrollIntoView({behavior: 'smooth'});
+    }
+}
+
+// 5. RENDERIZAR GRÁFICOS (Chart.js)
+function renderCharts(dpto) {
+    // Destruir gráficos anteriores si existen
+    if(chartPob) chartPob.destroy();
+    if(chartSup) chartSup.destroy();
+
+    // Gráfico de Barras: Población
+    const ctxPob = document.getElementById('chartPoblacion').getContext('2d');
+    chartPob = new Chart(ctxPob, {
+        type: 'bar',
+        data: {
+            labels: [dpto.nombre, 'Promedio Prov.'],
+            datasets: [{
+                label: 'Habitantes',
+                data: [dpto.pob, promPob],
+                backgroundColor: ['#4338ca', '#94a3b8'],
+                borderRadius: 8
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true } }
+        }
+    });
+
+    // Gráfico de Torta: Superficie Provincial
+    const ctxSup = document.getElementById('chartSuperficie').getContext('2d');
+    let restoSup = totalSup - dpto.sup;
+    let porcentaje = ((dpto.sup / totalSup) * 100).toFixed(1);
+    
+    chartSup = new Chart(ctxSup, {
+        type: 'doughnut',
+        data: {
+            labels: [`${dpto.nombre} (${porcentaje}%)`, 'Resto Provincia'],
+            datasets: [{
+                data: [dpto.sup, restoSup],
+                backgroundColor: ['#14b8a6', '#e2e8f0'],
+                borderWidth: 0,
+                hoverOffset: 4
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            cutout: '70%',
+            plugins: { legend: { position: 'bottom' } }
+        }
+    });
+}
+
+// Init general
 document.addEventListener('DOMContentLoaded', () => {
-    // Ordenar alfabéticamente
-    municipiosLaRioja.sort((a,b) => a.nombre.localeCompare(b.nombre));
-    renderMunicipios(municipiosLaRioja);
+    initMap();
+    renderTabla(dptosData);
 });
