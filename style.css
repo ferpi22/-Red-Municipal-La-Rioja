@@ -1,0 +1,144 @@
+
+/* Variables de Color (Índigo y Turquesa Modernos) */
+:root {
+    --primary-color: #1e1b4b; /* Indigo Oscuro Institucional */
+    --primary-light: #3730a3;
+    --secondary-color: #0d9488; /* Turquesa Moderno */
+    --secondary-light: #14b8a6;
+    --bg-light: #f8fafc;
+    --text-dark: #0f172a;
+    --text-muted: #64748b;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    color: var(--text-dark);
+    background-color: var(--bg-light);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Modificadores de Bootstrap */
+.text-primary { color: var(--primary-light) !important; }
+.bg-primary { background-color: var(--primary-light) !important; }
+.btn-primary { 
+    background-color: var(--primary-light); 
+    border-color: var(--primary-light); 
+}
+.btn-primary:hover { 
+    background-color: var(--primary-color); 
+    border-color: var(--primary-color); 
+}
+.text-secondary { color: var(--secondary-color) !important; }
+.bg-secondary { background-color: var(--secondary-color) !important; }
+
+/* Navbar */
+#mainNav {
+    background-color: var(--primary-color);
+    transition: all 0.3s;
+}
+#mainNav .navbar-brand {
+    color: #fff;
+}
+#mainNav .brand-icon {
+    color: var(--secondary-light);
+}
+#mainNav .nav-link {
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+#mainNav .nav-link:hover, #mainNav .nav-link.active {
+    color: #fff;
+}
+
+/* Hero Section */
+.masthead {
+    position: relative;
+    margin-bottom: 50px;
+    padding-top: calc(6rem + 72px);
+    padding-bottom: 6rem;
+    background: linear-gradient(135deg, var(--primary-color) 0%, #312e81 100%);
+    color: white;
+}
+.masthead::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.05"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');
+    opacity: 0.5;
+}
+.site-heading {
+    position: relative;
+    z-index: 1;
+}
+.site-heading h1 {
+    font-size: 4rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+.subheading {
+    font-size: 1.25rem;
+    font-weight: 300;
+    line-height: 1.5;
+    display: block;
+    opacity: 0.9;
+}
+
+/* Feature Cards */
+.feature-icon {
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}
+.feature-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
+}
+
+/* Directorio Municipios */
+.muni-card {
+    border-radius: 15px;
+    transition: all 0.2s;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+.muni-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important;
+    border-color: var(--secondary-light);
+}
+.muni-icon-box {
+    width: 50px;
+    height: 50px;
+    background: var(--bg-light);
+    color: var(--primary-light);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+/* News Cards */
+.news-card {
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s;
+}
+.news-card:hover {
+    transform: translateY(-5px);
+}
+
+.form-control:focus, .form-select:focus {
+    box-shadow: 0 0 0 0.25rem rgba(13, 148, 136, 0.25);
+    border-color: var(--secondary-light) !important;
+}
